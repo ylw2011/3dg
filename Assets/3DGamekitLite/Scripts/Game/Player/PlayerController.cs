@@ -51,7 +51,7 @@ namespace Gamekit3D
         protected Quaternion m_TargetRotation;         // What rotation Ellen is aiming to have based on input.
         protected float m_AngleDiff;                   // Angle in degrees between Ellen's current rotation and her target rotation.
         protected Collider[] m_OverlapResult = new Collider[8];    // Used to cache colliders that are near Ellen.
-        protected bool m_InAttack;                     // Whether Ellen is currently in the middle of a melee attack.
+        public bool m_InAttack;                     // Whether Ellen is currently in the middle of a melee attack.
         protected bool m_InCombo;                      // Whether Ellen is currently in the middle of her melee combo.
         protected Damageable m_Damageable;             // Reference used to set invulnerablity and health based on respawning.
         protected Renderer[] m_Renderers;              // References used to make sure Renderers are reset properly. 
