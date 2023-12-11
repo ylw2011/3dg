@@ -35,6 +35,7 @@ public class AIEnemy : MonoBehaviour
             if (target.gameObject.GetComponent<Gamekit3D.PlayerController>().m_InAttack)
             {
                 agent.isStopped = true;
+                ta.SetBool("Walk", false);
                 CurrHP--;
                 Debug.Log(target.name + " Hit " + gameObject.name + ", left " + CurrHP);
                 if(CurrHP<=0)
@@ -44,7 +45,7 @@ public class AIEnemy : MonoBehaviour
             }
             else
             {
-                float distance = Vector3.Distance(target.transform.position, transform.position);
+                float distance = Vector3.Distance(target.position, transform.position);
                 if (distance <= ViewDistance)
                 {
                     if (distance <= MeleeDistance)
@@ -58,7 +59,7 @@ public class AIEnemy : MonoBehaviour
                     {
                         agent.isStopped = false;
                         ta.SetBool("Walk", true);
-                        agent.SetDestination(target.transform.position);
+                        agent.SetDestination(target.position);
                     }
                 }
                 else
