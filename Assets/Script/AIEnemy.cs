@@ -16,6 +16,7 @@ public class AIEnemy : MonoBehaviour
     private Animator ta;
     private float CurrHP;
     private float CurrAP;
+    bool touch = false;
 
     void Start()
     {
@@ -32,14 +33,17 @@ public class AIEnemy : MonoBehaviour
     {
         if (target != null && CurrHP>0)
         {
-            if (target.gameObject.GetComponent<Gamekit3D.PlayerController>().m_InAttack)
+            if (target.gameObject.GetComponent<Gamekit3D.PlayerController>().m_InAttack && touch)
             {
                 agent.isStopped = true;
                 ta.SetBool("Walk", false);
                 CurrHP--;
                 Debug.Log(target.name + " Hit " + gameObject.name + ", left " + CurrHP);
-                if(CurrHP<=0)
+                if (CurrHP <= 0)
+                {
                     ta.SetTrigger("Die");
+                    GlobalSet.enemycount--;
+                }
                 else
                     ta.SetTrigger("Hit");
             }
@@ -84,5 +88,16 @@ public class AIEnemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, ViewDistance);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, MeleeDistance);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "Ellen") touch = true;
+        Debug.Log("Collider Enter "+other.name);
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.name == "Ellen") touch = false;
+        Debug.Log("Collider Enter "+other.name);
     }
 }

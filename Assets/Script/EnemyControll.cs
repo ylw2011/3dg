@@ -11,6 +11,7 @@ public class EnemyControll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GlobalSet.enemycount = num;
         StartCoroutine(SpawnEnemies());
     }
 
