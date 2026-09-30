@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 228652212}
   - component: {fileID: 228652208}
   - component: {fileID: 228652214}
+  - component: {fileID: 228652215}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -254,6 +255,9 @@ MonoBehaviour:
   maxPitch: 85
   gravity: -9
   jumpHeight: 3
+  shotRange: 100
+  shotsPerSecond: 4
+  shotColor: {r: 1, g: 0.72, b: 0.25, a: 1}
 --- !u!143 &228652214
 CharacterController:
   m_ObjectHideFlags: 0
@@ -279,6 +283,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &228652215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228652207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9c347f1cfa4d04082c0a9fd3a44406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdventureWorldGenerator
+  seed: 1151
+  heightmapResolution: 257
+  treeCount: 150
+  worldSize: 240
+  maximumHillHeight: 32
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

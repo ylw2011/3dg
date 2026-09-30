@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class MainChar : MonoBehaviour
 {
@@ -20,6 +21,13 @@ public class MainChar : MonoBehaviour
     public float gravity = -9.81f;
     public float jumpHeight = 1.5f;
     float verticalVelocity = 0f;
+
+    [Header("Shooting")]
+    public float shotRange = 100f;
+    public float shotsPerSecond = 4f;
+    public Color shotColor = new Color(1f, 0.72f, 0.25f);
+    float nextShotTime;
+    static Material shotTraceMaterial;
 
     void Start()
     {
@@ -55,6 +63,50 @@ public class MainChar : MonoBehaviour
 
         HandleMove();
         HandleLook();
+        HandleShooting();
+    }
+
+    void HandleShooting()
+    {
+        var mouse = Mouse.current;
+        if (cameraTransform == null || mouse == null || !mouse.leftButton.wasPressedThisFrame ||
+            Cursor.lockState != CursorLockMode.Locked || Time.time < nextShotTime)
+        {
+            return;
+        }
+
+        nextShotTime = Time.time + 1f / Mathf.Max(0.1f, shotsPerSecond);
+        Vector3 origin = cameraTransform.position;
+        Vector3 end = origin + cameraTransform.forward * shotRange;
+        if (Physics.Raycast(origin, cameraTransform.forward, out RaycastHit hit, shotRange))
+        {
+            end = hit.point;
+        }
+
+        StartCoroutine(ShowShotLine(origin, end));
+    }
+
+    IEnumerator ShowShotLine(Vector3 start, Vector3 end)
+    {
+        var shotObject = new GameObject("Shot Trace");
+        var line = shotObject.AddComponent<LineRenderer>();
+        if (shotTraceMaterial == null)
+        {
+            Shader shader = Shader.Find("Sprites/Default");
+            if (shader == null) shader = Shader.Find("Universal Render Pipeline/Unlit");
+            if (shader != null) shotTraceMaterial = new Material(shader);
+        }
+        line.positionCount = 2;
+        line.SetPosition(0, start);
+        line.SetPosition(1, end);
+        line.startWidth = 0.025f;
+        line.endWidth = 0.008f;
+        line.sharedMaterial = shotTraceMaterial;
+        line.startColor = shotColor;
+        line.endColor = new Color(shotColor.r, shotColor.g, shotColor.b, 0f);
+        line.useWorldSpace = true;
+        yield return new WaitForSeconds(0.06f);
+        Destroy(shotObject);
     }
 
     void HandleMove()
