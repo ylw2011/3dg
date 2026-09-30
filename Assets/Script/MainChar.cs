@@ -40,7 +40,8 @@ public class MainChar : MonoBehaviour
         if (controller == null)
         {
             controller = GetComponent<CharacterController>();
-        }
+        }  
+              
     }
 
     void Update()
